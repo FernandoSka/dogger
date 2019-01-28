@@ -30,4 +30,5 @@ urlpatterns = [
     path('owner', OwnerDashboard.as_view(), name='owner_detail'),
     path('walker_list', WalkerList.as_view(), name='walker_list'),
     path('dog_list', OwnerDog.as_view(), name='dog_list'),
+    path('dog_list/<slug:pk>', OwnerDog.as_view(), name='dog_list'),
 ]

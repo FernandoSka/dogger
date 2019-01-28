@@ -64,7 +64,7 @@ class WalkerDetailSerializer(serializers.ModelSerializer):
 
 
 class DogSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(required=False)
 
     class Meta:
         model = Dog

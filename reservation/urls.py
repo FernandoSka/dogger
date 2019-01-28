@@ -15,11 +15,22 @@ Including another URLconf
 """
 from django.urls import path
 from .views import (
-	ReservationDetail,
-	ReservationCreateItem,
+    ReservationCreate,
+    AddDogItem,
+    ReservationDetail,
+    AcceptReservation,
+    RefuseReservation,
+    CancelReservation,
+    ConcludeReservation,
 )
 
 urlpatterns = [
-    path('reservation', ReservationDetail.as_view(), name='reservation_detail'),
-    path('item_create', ReservationCreateItem.as_view(), name='reservation_detail'),
+    path('reservation', ReservationCreate.as_view(), name='reservation_create'),
+    path('reservation_detail', ReservationDetail.as_view(), name='reservation_detail'),
+    path('reservation_detail/<slug:pk>', ReservationDetail.as_view(), name='reservation_detail'),
+    path('reservation_detail/<slug:pk>/accept', AcceptReservation.as_view(), name='reservation_accept'),
+    path('reservation_detail/<slug:pk>/refuse', RefuseReservation.as_view(), name='reservation_refuse'),
+    path('reservation_detail/<slug:pk>/cancel', CancelReservation.as_view(), name='reservation_cancel'),
+    path('reservation_detail/<slug:pk>/conclude', ConcludeReservation.as_view(), name='reservation_conclude'),
+    path('reservation/items', AddDogItem.as_view(), name='reservation_detail'),
 ]

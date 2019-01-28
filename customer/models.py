@@ -38,7 +38,7 @@ class Walker(models.Model):
 
 
 class Owner(models.Model):
-    customer = models.OneToOneField(Customer, on_delete = models.CASCADE)
+    customer = models.OneToOneField(Customer, on_delete = models.CASCADE, related_name='owner')
     reservations = models.IntegerField(validators = [min_validator], default=0)
 
 class Dog(models.Model):

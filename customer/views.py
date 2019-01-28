@@ -9,6 +9,7 @@ from .serializers import (
     DogSerializer,
     DogSerializerCreate
 )
+from reservation.permissions import IsOwner
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
@@ -127,7 +128,7 @@ class WalkerList(APIView):
 
 class OwnerDog(APIView):
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,IsOwner)
 
     def get(self, request, format = None):
         user = self.request.user
@@ -146,9 +147,9 @@ class OwnerDog(APIView):
             return Response(dog_serializer.data, status=status.HTTP_201_CREATED)
         return Response(dog_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self,request, format = None):
+    def put(self,request,pk, format = None):
         user = self.request.user
-        dog = Dog.objects.get(id=request.data['id'])
+        dog = Dog.objects.get(id=pk)
         dog_serializer = DogSerializer(dog, data = request.data)
         if dog.owner == user.customer.owner:
             if dog_serializer.is_valid():
@@ -157,9 +158,9 @@ class OwnerDog(APIView):
             return Response(dog_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response({'owner':'This dog isnt owns to you'}, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self,request, format = None):
+    def delete(self,request,pk, format = None):
         user = self.request.user
-        dog = Dog.objects.get(id=request.data['id'])
+        dog = Dog.objects.get(id=pk)
         dog_serializer = DogSerializer(dog, data = request.data)
         if dog.owner == user.customer.owner:
             if dog_serializer.is_valid():
